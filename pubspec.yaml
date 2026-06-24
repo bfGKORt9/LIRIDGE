@@ -1,0 +1,38 @@
+name: liridge
+description: "LIRIDGE CI2I - High-performance Voice × Voice Pipeline Powered by Gemini 3.5 Flash Live & Helsinki-NLP"
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # 【Rust連携】RustコアとDart層を低遅延・ノンブロッキングで繋ぐブリッジ
+  flutter_rust_bridge: ^2.0.0
+
+  # 【Gemini Live】WebSocketを介してGemini 3.5 Flash Live APIと超低遅延で双方向通信を行う核心
+  web_socket_channel: ^2.4.0
+
+  # 【音声再生】Geminiからリアルタイムに降ってくる通訳音声（PCMバイナリ）をイヤホンへ流し込む
+  flutter_sound: ^9.3.0
+
+  # 【ストリーム制御】音声ストリームとテキストストリームをUIへ安全にバインド・合成する
+  rxdart: ^0.27.0
+
+  # 【ファイルパス管理】Silero VADの.onnxモデルなどのアセットファイルをローカル展開する際の必須ライブラリ
+  path_provider: ^2.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  # 【アセット設定】Rust側のSilero VAD（発話検知）で読み込むためのONNXモデルファイルを同梱
+  assets:
+    - assets/silero_vad.onnx
