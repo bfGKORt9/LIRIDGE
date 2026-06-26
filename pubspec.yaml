@@ -1,5 +1,5 @@
 name: liridge
-description: "LIRIDGE CI2I - High-performance Voice × Voice Pipeline Powered by Gemini 3.5 Flash Live & Helsinki-NLP"
+description: "LIRIDGE CI2I - High-performance Voice Translation"
 publish_to: 'none'
 version: 0.1.0+1
 
@@ -10,19 +10,24 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # 【Rust連携】RustコアとDart層を低遅延・ノンブロッキングで繋ぐブリッジ
+  # 【Rust連携】RustコアとDart層を低遅延・ノンブロッキングで結合
   flutter_rust_bridge: ^2.0.0
+  
+  # 【CHRONOS防壁】暗号化・ローカル記憶・生体認証モジュール
+  encrypt: ^5.0.3
+  shared_preferences: ^2.2.2
+  local_auth: ^2.1.6
 
-  # 【Gemini Live】WebSocketを介してGemini 3.5 Flash Live APIと超低遅延で双方向通信を行う核心
+  # 【Gemini Live】WebSocketを介してGeminiと常時双方向リンク
   web_socket_channel: ^2.4.0
 
-  # 【音声再生】Geminiからリアルタイムに降ってくる通訳音声（PCMバイナリ）をイヤホンへ流し込む
+  # 【音声再生】Geminiからリアルタイムに降ってくるPCM波形の再生
   flutter_sound: ^9.3.0
 
-  # 【ストリーム制御】音声ストリームとテキストストリームをUIへ安全にバインド・合成する
+  # 【ストリーム制御】音声・テキストストリームの高度なルーティング
   rxdart: ^0.27.0
 
-  # 【ファイルパス管理】Silero VADの.onnxモデルなどのアセットファイルをローカル展開する際の必須ライブラリ
+  # 【ファイルパス管理】Silero VADの.onnxモデルをアプリ内領域へ展開
   path_provider: ^2.1.0
 
 dev_dependencies:
@@ -33,10 +38,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # 【アセット設定】Rust側のSilero VAD（発話検知）で読み込むためのONNXモデルファイルを同梱
+  # 【アセット設定】Rust側のSilero VAD（発話区間検出）に渡すAIモデル
   assets:
     - assets/silero_vad.onnx
-      encrypt: ^5.0.3
-  shared_preferences: ^2.2.2
-  local_auth: ^2.1.6
-
