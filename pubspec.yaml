@@ -36,3 +36,7 @@ flutter:
   # 【アセット設定】Rust側のSilero VAD（発話検知）で読み込むためのONNXモデルファイルを同梱
   assets:
     - assets/silero_vad.onnx
+      encrypt: ^5.0.3
+  shared_preferences: ^2.2.2
+  local_auth: ^2.1.6
+
