@@ -1,7 +1,8 @@
 name: liridge
-description: "LIRIDGE CI2I - High-performance Voice Translation"
+description: LIRIDGE Core System
 publish_to: 'none'
-version: 0.1.0+1
+
+version: 1.0.0+1
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -9,26 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  # 【Rust連携】RustコアとDart層を低遅延・ノンブロッキングで結合
-  flutter_rust_bridge: ^2.0.0
-  
-  # 【CHRONOS防壁】暗号化・ローカル記憶・生体認証モジュール
-  encrypt: ^5.0.3
-  shared_preferences: ^2.2.2
-  local_auth: ^2.1.6
-
-  # 【Gemini Live】WebSocketを介してGeminiと常時双方向リンク
   web_socket_channel: ^2.4.0
-
-  # 【音声再生】Geminiからリアルタイムに降ってくるPCM波形の再生
-  flutter_sound: ^9.3.0
-
-  # 【ストリーム制御】音声・テキストストリームの高度なルーティング
-  rxdart: ^0.27.0
-
-  # 【ファイルパス管理】Silero VADの.onnxモデルをアプリ内領域へ展開
-  path_provider: ^2.1.0
+  just_audio: ^0.9.36
 
 dev_dependencies:
   flutter_test:
@@ -37,7 +20,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  # 【アセット設定】Rust側のSilero VAD（発話区間検出）に渡すAIモデル
-  assets:
-    - assets/silero_vad.onnx
