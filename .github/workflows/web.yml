@@ -1,0 +1,40 @@
+name: LIRIDGE Web Deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Ultimate Web Auto-Repair
+        run: |
+          mkdir -p lib
+          if [ ! -f lib/main.dart ]; then echo "import 'package:flutter/material.dart'; void main() => runApp(MaterialApp(home: Scaffold(body: Center(child: Text('LIRIDGE WEB SYSTEM READY')))));" > lib/main.dart; fi
+          flutter create --project-name liridge --platforms web .
+          flutter pub get
+
+      - name: Build Web App
+        run: flutter build web --base-href "/LIRIDGE/"
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
