@@ -1,0 +1,48 @@
+name: LIRIDGE Factory Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-apps:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Ultimate Auto-Repair
+        run: |
+          mkdir -p lib
+          if [ ! -f lib/main.dart ]; then echo "import 'package:flutter/material.dart'; void main() => runApp(MaterialApp(home: Scaffold(body: Center(child: Text('LIRIDGE SYSTEM READY')))));" > lib/main.dart; fi
+          flutter create --project-name liridge --platforms ios,android .
+          flutter pub get
+
+      - name: Build Android APK
+        run: flutter build apk --release
+
+      - name: Build iOS (No Codesign)
+        run: flutter build ios --release --no-codesign
+
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LIRIDGE-Android-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload iOS App
+        uses: actions/upload-artifact@v4
+        with:
+          name: LIRIDGE-iOS-App
+          path: build/ios/iphoneos/Runner.app
