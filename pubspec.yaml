@@ -1,0 +1,35 @@
+name: liridge
+description: LIRIDGE CORE NETWORK
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  
+  # --- Core Network & Security ---
+  shared_preferences: ^2.2.3    # ローカルデータ保存
+  local_auth: ^2.2.0            # 生体認証（TouchID/FaceID）
+  flutter_dotenv: ^5.1.0        # APIキー秘匿保管庫（将来のGemini Key用）
+  
+  # --- AI Real-Time Communication ---
+  web_socket_channel: ^3.0.0    # Gemini Live API 双方向ソケット通信
+  
+  # --- Native Audio Engine ---
+  just_audio: ^0.9.36           # 音声再生・ダッキング・バックグラウンド再生
+  record: ^5.0.5                # 【先回り追加】マイクからの生PCM音声キャプチャ
+  
+  # --- Native OS Control ---
+  permission_handler: ^11.3.1   # 【先回り追加】マイク・FaceID等のOS権限一括要求
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
