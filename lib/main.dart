@@ -11,7 +11,7 @@ class LiridgeApp extends StatelessWidget {
   const LiridgeApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildCo context) {
     return MaterialApp(
       title: 'LIRIDGE CORE',
       theme: ThemeData.dark(),
