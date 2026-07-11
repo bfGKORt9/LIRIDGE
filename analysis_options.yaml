@@ -1,10 +1,9 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
-  # 実機用の未完成ファイルをWebビルド時の解析対象から一時的に除外
   exclude:
     - "lib/security_gateway.dart"
-    # 今後、実機専用で開発途中のファイルが増えた場合はここに追記するだけで連鎖エラーを防げます
+    - "lib/audio_playback_service.dart"
 
 linter:
   rules:
