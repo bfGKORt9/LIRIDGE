@@ -1,0 +1,58 @@
+name: LIRIDGE Core Repair & Deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  repair_and_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: 【最重要】Auto-Regenerate Native Scaffolding
+        run: |
+          echo "Starting Cloud Auto-Alchemy Protocol..."
+          flutter create .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add android/ ios/ macos/ linux/ windows/ web/
+          git diff --staged --quiet || (git commit -m "[SYSTEM] Auto-Regenerate Native Scaffolding" && git push)
+          echo "Native Scaffolding Restored Successfully."
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze Code Quality
+        run: flutter analyze
+
+      - name: Build Web Application
+        run: flutter build web --release --base-href "/LIRIDGE/"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    needs: repair_and_build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
