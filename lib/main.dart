@@ -77,7 +77,8 @@ class _UIRouterState extends State<UIRouter> {
             if (_isMenuOpen)
               GestureDetector(
                 onTap: _toggleMenu,
-                child: Container(color: Colors.black60),
+                // 【バグ修正1】存在しない black60 を opacity に変更
+                child: Container(color: Colors.black.withOpacity(0.6)),
               ),
 
             AnimatedPositioned(
@@ -91,10 +92,11 @@ class _UIRouterState extends State<UIRouter> {
                     onTap: _toggleMenu,
                     child: Container(
                       width: tabWidth, height: 90,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF1C1C1E),
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20)),
-                        side: BorderSide(color: Colors.white12),
+                      // 【バグ修正2】side を border に変更し const を除去
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1C1C1E),
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                        border: Border.all(color: Colors.white12),
                       ),
                       child: Icon(_isMenuOpen ? Icons.arrow_forward_ios : Icons.arrow_back_ios_new, color: Colors.white54, size: 14),
                     ),
@@ -185,7 +187,8 @@ class CocpitConsole extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("IRIDGE", style: TextStyle(fontSize: 26, fontWeight: FontWeight.black, color: ledColor, letterSpacing: 4)),
+                          // 【バグ修正3】FontWeight.black を FontWeight.w900 に変更
+                          Text("IRIDGE", style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: ledColor, letterSpacing: 4)),
                           Text(title, style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic, color: ledColor.withOpacity(0.7))),
                         ],
                       ),
@@ -408,11 +411,12 @@ class ToggleSwitchPainter extends CustomPainter {
     canvas.drawCircle(center, 14, Paint()..color = Colors.black);
     canvas.drawCircle(center, 12, Paint()..color = const Color(0xFF2C2C2E));
 
+    // 【バグ修正4】存在しない gradient を shader へ正しく変換
     final p = Paint()
-      ..gradient = const LinearGradient(
+      ..shader = const LinearGradient(
         colors: [Color(0xFFE5E5EA), Color(0xFF8E8E93), Color(0xFF1C1C1E)],
         begin: Alignment.topCenter, end: Alignment.bottomCenter,
-      );
+      ).createShader(Rect.fromCenter(center: knob, width: 20, height: 44));
 
     if (mode == 0) {
       final heart = Paint()..color = const Color(0xFFFFD700);
