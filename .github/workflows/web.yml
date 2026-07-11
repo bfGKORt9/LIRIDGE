@@ -28,7 +28,7 @@ jobs:
 
       # 【必須工程】これが index.html の欠落エラーを永久に防ぎます
       - name: Generate Web Scaffolding
-        run: flutter create --platforms web .
+        run: flutter create --project-name liridge --platforms web .
 
       - name: Build Web Application
         run: flutter build web --base-href "/LIRIDGE/"
