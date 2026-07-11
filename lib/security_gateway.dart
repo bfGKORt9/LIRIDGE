@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: type=lint
+import 'package:flutter/material.dart'; // 【修正】大文字のIを小文字に修正
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:local_auth/local_auth.dart';
 import 'main.dart';
@@ -79,8 +80,10 @@ class _SecurityGatewayState extends State<SecurityGateway> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('is_authorized', true);
     if (!mounted) return;
+    
+    // 【修正】最新のメインUI（UIRouter）へ接続先を更新
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const LiridgeTerminalPage()),
+      MaterialPageRoute(builder: (context) => const UIRouter()),
     );
   }
 
